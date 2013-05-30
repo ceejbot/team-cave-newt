@@ -8,20 +8,26 @@ var
 var drone = new Drone();
 drone.selectCamera('front');
 
-drone.on('done', function() {
-  drone.client.front(0);
+drone.on('pngs', function() {
   drone.client.land(function() {
     process.exit(0);
   });
 });
 
+drone.on('altitude', function() {
+  drone.grabPNGs(50);
+  drone.client.front(0.05);
+  drone.client.after(10000, function() {
+      drone.client.stop();
+      drone.client.back(0.1);
+      drone.client.after(5000, function() {
+        drone.client.land();
+      });
+  });
+});
+
 drone.client.takeoff(function() {
-    drone.grabPNGs(50);
-    drone.client.front(0.05);
-    drone.client.after(5000, function() {
-        drone.client.front(0);
-        drone.client.stop();
-    });
+  drone.moveToAltitude(2.0);
 });
 
 
