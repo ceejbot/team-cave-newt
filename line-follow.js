@@ -69,7 +69,7 @@ drone.client.takeoff(function() {
     }
     function move() {
       console.log('moving forward');
-      drone.move(1000, 0.2, stopMoving);
+      drone.move(1000, 0.1, stopMoving);
     }
     function stopMoving() {
       console.log('waiting 0.5 seconds then seeking again');

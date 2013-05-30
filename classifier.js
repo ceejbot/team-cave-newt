@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 // Set options.debug = true for lots of debug output including
 // lovely classifier maps on the console
 
@@ -142,14 +144,19 @@ function Classifier(options) {
   };
 
   self.showMap = function(map) {
+    console.log(self.renderMap(map));
+  };
+
+  self.renderMap = function(map) {
+    var s = '';
     var x, y;
     for (y = 0; (y < map.length); y++) {
-      var s = '';
       for (x = 0; (x < map[y].length); x++) {
         s += map[y][x];
       }
-      console.log(s);
+      s += "\n";
     }
+    return s;
   };
 
   self.measureFitness = function(map) {
@@ -169,6 +176,7 @@ function Classifier(options) {
         }
       }
     }
+    fs.writeFileSync('maps/' + fitness + '.txt', self.renderMap(map));
     return fitness;
   };
 }
