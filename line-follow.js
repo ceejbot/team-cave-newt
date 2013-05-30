@@ -16,18 +16,7 @@ function findBestFitness(fitness) {
         bestFitness = fitness;
         bestHeading = drone.heading;
     }
-
-    if (drone.heading == initialHeading) {
-      drone.emit('found');
-    }
 }
-
-drone.on('found', function() {
-  drone.removeListener('fitness', findBestFitness);
-  drone.client.stop();
-  console.log('finished rotation; now seeking', bestFitness, 'at heading', bestHeading);
-  drone.turnToHeading(bestHeading);
-});
 
 drone.on('heading', function() {
     console.log('we think we have a good heading; moving forward');
@@ -49,11 +38,41 @@ drone.on('heading', function() {
 });
 
 drone.client.takeoff(function() {
+    console.log('moving to altitude');
     drone.moveToAltitude(1.5);
     drone.on('altitude', function() {
-        initialHeading = drone.heading;
-        drone.streamPNGS();
-        drone.on('fitness', findBestFitness);
-        drone.client.clockwise(0.2);
+      console.log('streaming PNGs');
+      drone.streamPNGS();
+      seek();
     });
+    function seek() {
+      console.log('seeking best heading');
+      // Start turning; after 5 seconds, move
+      initialHeading = drone.heading;
+      drone.on('fitness', findBestFitness);
+      drone.client.clockwise(0.2);
+      setTimeout(function() {
+        revisit();
+      }, 5000);
+    }
+    function revisit() {
+      console.log('revisiting to best heading');
+      drone.removeListener('fitness', findBestFitness);
+      drone.client.stop();
+      console.log('finished rotation; now seeking', bestFitness, 'at heading', bestHeading);
+      drone.on('heading', stopTurning);
+      drone.turnToHeading(bestHeading);
+    }
+    function stopTurning() {
+      console.log('waiting to settle after turn');
+      setTimeout(move, 500);
+    }
+    function move() {
+      console.log('moving forward');
+      drone.move(1000, 0.2, stopMoving);
+    }
+    function stopMoving() {
+      console.log('waiting 0.5 seconds then seeking again');
+      setTimeout(seek, 500);
+    }
 });
