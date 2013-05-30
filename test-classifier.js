@@ -1,4 +1,4 @@
-var pixels = require('./pixels.js')();
+var pixels = require('./pixels.js')({ size: { width: 50, height: 50 } });
 var classifier = require('./classifier.js')();
 var argv = require('optimist').argv;
 
