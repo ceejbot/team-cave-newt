@@ -15,6 +15,7 @@
   "dependencies": {
     "ar-drone": "git://github.com/felixge/node-ar-drone.git",
     "lodash": "~1.2.1",
-    "opencv": "~0.1.0"
+    "opencv": "~0.1.0",
+    "optimist": "~0.5.1"
   }
 }

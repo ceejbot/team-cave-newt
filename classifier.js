@@ -11,9 +11,16 @@ function Classifier() {
   self.classify = function(pixels) {
     var x, y;
     var result = {};
+    var maxes = [ 0, 0, 0 ];
     for (y = 0; (y < pixels.height); y++) {
       for (x = 0; (x < pixels.width); x++) {
         var rgb = pixels.get(x, y);
+        var i;
+        for (i = 0; (i < 3); i++) {
+          if (rgb[i] > maxes[i]) {
+            maxes[i] = rgb[i];
+          }
+        }
         if (self.isBlack(rgb)) {
           result.box = true;
         }
@@ -25,6 +32,8 @@ function Classifier() {
         }
       }
     }
+    console.log('maxes:');
+    console.log(maxes);
     return result;
   };
   self.isBlack = function(rgb) {
@@ -34,6 +43,6 @@ function Classifier() {
     return (rgb[0] + rgb[1] + rgb[2] > 576);
   };
   self.isOrange = function(rgb) {
-    return (rgb[0] > 192) && (rgb[2] < 64);
+    return (rgb[0] > 220) && (rgb[2] < 192);
   };
 }
