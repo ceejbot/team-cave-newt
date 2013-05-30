@@ -6,11 +6,14 @@
 var fs = require('fs');
 var cv = require('opencv');
 
-module.exports = function() {
-  return new Pixels();
+module.exports = function(options) {
+  return new Pixels(options);
 };
 
-function Pixels() {
+function Pixels(options) {
+  if (!options) {
+    options = {};
+  }
   var self = this;
 
   self.get = function(x, y) {
@@ -26,6 +29,10 @@ function Pixels() {
     cv.readImage(png, function(err, im) {
       if (err) {
         return callback(err);
+      }
+      // This is a distortion but it's not important
+      if (options.size) {
+        im.resize(options.size.width, options.size.height);
       }
       self.width = im.width();
       self.height = im.height();
