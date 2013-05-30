@@ -13,8 +13,8 @@
   "author": "C J Silverio <ceejceej@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "ar-drone": "git://github.com/felixge/node-ar-drone.git",
-    "cv": "~0.0.3",
-    "lodash": "~1.2.1"
+    "ar-drone": "*",
+    "lodash": "~1.2.1",
+    "opencv": "~0.1.0"
   }
 }
