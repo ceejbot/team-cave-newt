@@ -9,8 +9,8 @@ pixels.read(path, function (err) {
     console.log('could not read ' + path);
     process.exit(1);
   }
-  var result = classifier.classify(pixels);
-  console.log(result);
+  var result = classifier.fitness(pixels);
+  console.log('fitness: ' + result);
 });
 
 
