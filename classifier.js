@@ -160,6 +160,11 @@ function Classifier(options) {
       var s = '';
       for (x = 0; (x < map[y].length); x++) {
         if (map[y][x] === 'B') {
+          // Box is most valuable
+          fitness += ((width / 2) - Math.abs(x - (width / 2))) * 5;
+        }
+        if (map[y][x] === 'S') {
+          // Centered stripe is valuable too
           fitness += (width / 2) - Math.abs(x - (width / 2));
         }
       }
