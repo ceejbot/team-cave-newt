@@ -25,7 +25,7 @@ pngStream.on('data', function(data) {
       var w = im.width();
       var h = im.height();
       var center = im.get(Math.floor(im.width() / 2), Math.floor(im.height() / 2));
-      console.log('w:', w, 'h:', h, 'center:');
+      console.log('w:', w, 'h:', h, 'center:', center);
     })
   });
 
