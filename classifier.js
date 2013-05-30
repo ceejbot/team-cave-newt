@@ -90,10 +90,10 @@ function Classifier(options) {
       for (x = 0; (x < width); x++) {
         if (map[y][x] === 'S') {
           stripey = 0;
-          // If we're not within 3 pixels of 2 more stripe pixels,
+          // If we're not next to another stripe pixel,
           // we're probably somebody's shirt.
-          for (ny = y - 3; (ny <= (y + 3)); ny++) {
-            for (nx = x - 3; (nx <= (x + 3)); nx++) {
+          for (ny = y - 1; (ny <= (y + 1)); ny++) {
+            for (nx = x - 1; (nx <= (x + 1)); nx++) {
               if ((nx < 0) || (nx >= width) || (ny < 0) || (ny >= height)) {
                 continue;
               }
