@@ -6,7 +6,7 @@ var
   ;
 
 var drone = new Drone();
-drone.selectCamera('front');
+drone.selectCamera('bottom');
 
 drone.on('pngs', function() {
   drone.client.land(function() {
@@ -15,15 +15,14 @@ drone.on('pngs', function() {
 });
 
 drone.on('altitude', function() {
-  drone.streamPNGS();
-  drone.client.front(0.05);
-  drone.client.after(10000, function() {
+
+  // drone.streamPNGS();
+  drone.grabPNGs(50);
+
+  drone.move(5000, 0.05, function() {
+    drone.move(2500, -0.1, function() {
       drone.client.stop();
-      drone.client.back(0.1);
-      drone.client.after(5000, function() {
-        drone.client.land();
-        process.exit(0);
-      });
+    });
   });
 });
 
