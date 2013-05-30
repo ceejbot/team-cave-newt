@@ -72,7 +72,12 @@ drone.client.takeoff(function() {
       drone.move(1000, 0.1, stopMoving);
     }
     function stopMoving() {
-      console.log('waiting 0.5 seconds then seeking again');
-      setTimeout(seek, 500);
+      console.log('waiting 0.5 seconds then landing');
+      setTimeout(land, 500);
+    }
+    function land() {
+      console.log('landing!');
+      drone.client.land();
+      // setTimeout(seek, 500);
     }
 });
