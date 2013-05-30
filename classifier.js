@@ -90,10 +90,10 @@ function Classifier(options) {
       for (x = 0; (x < width); x++) {
         if (map[y][x] === 'S') {
           stripey = 0;
-          // If we're not within 3 pixels of 2 more stripe pixels,
+          // If we're not next to another stripe pixel,
           // we're probably somebody's shirt.
-          for (ny = y - 3; (ny <= (y + 3)); ny++) {
-            for (nx = x - 3; (nx <= (x + 3)); nx++) {
+          for (ny = y - 1; (ny <= (y + 1)); ny++) {
+            for (nx = x - 1; (nx <= (x + 1)); nx++) {
               if ((nx < 0) || (nx >= width) || (ny < 0) || (ny >= height)) {
                 continue;
               }
@@ -140,6 +140,7 @@ function Classifier(options) {
       }
     }
   };
+
   self.showMap = function(map) {
     var x, y;
     for (y = 0; (y < map.length); y++) {
@@ -150,14 +151,21 @@ function Classifier(options) {
       console.log(s);
     }
   };
+
   self.measureFitness = function(map) {
     var x, y;
     var fitness = 0;
+    var width = map[0].length;
     for (y = 0; (y < map.length); y++) {
       var s = '';
       for (x = 0; (x < map[y].length); x++) {
         if (map[y][x] === 'B') {
-          fitness++;
+          // Box is most valuable
+          fitness += ((width / 2) - Math.abs(x - (width / 2))) * 5;
+        }
+        if (map[y][x] === 'S') {
+          // Centered stripe is valuable too
+          fitness += (width / 2) - Math.abs(x - (width / 2));
         }
       }
     }

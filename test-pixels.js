@@ -3,7 +3,7 @@ var client  = drone.createClient();
 var fs = require('fs');
 var cv = require('opencv');
 
-var pixels = require('./pixels.js')({ size: { width: 100, height: 100 }});
+var pixels = require('./lib/pixels.js')({ size: { width: 100, height: 100 }});
 pixels.read('images/image.png', function (err) {
   if (err) {
     console.log('read failed');
