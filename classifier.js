@@ -140,6 +140,7 @@ function Classifier(options) {
       }
     }
   };
+
   self.showMap = function(map) {
     var x, y;
     for (y = 0; (y < map.length); y++) {
@@ -150,14 +151,16 @@ function Classifier(options) {
       console.log(s);
     }
   };
+
   self.measureFitness = function(map) {
     var x, y;
     var fitness = 0;
+    var width = map[0].length;
     for (y = 0; (y < map.length); y++) {
       var s = '';
       for (x = 0; (x < map[y].length); x++) {
         if (map[y][x] === 'B') {
-          fitness++;
+          fitness += (width / 2) - Math.abs(x - (width / 2));
         }
       }
     }
