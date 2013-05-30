@@ -1,18 +1,18 @@
 {
   "name": "team-cave-newt",
   "version": "0.0.1",
-  "description": "Boutell/Silverio node copter",
+  "description": "Bessey/Boutell/Silverio node copter",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "repository": "git://github.com/ceejbot/team-cave-newt.git",
   "keywords": [
     "nodecopter"
   ],
   "author": "C J Silverio <ceejceej@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "ar-drone": "~0.1.0"
+    "ar-drone": "git://github.com/felixge/node-ar-drone.git"
   }
 }
