@@ -7,10 +7,10 @@ client.takeoff();
 var pngStream = client.getPngStream();
 
 // front
-client.config('video:video_channel', 0);
+// client.config('video:video_channel', 0);
 
 // bottom
-// client.config('video:video_channel', 3);
+client.config('video:video_channel', 3);
 
 var counter = 0;
 pngStream.on('data', function(data) {
