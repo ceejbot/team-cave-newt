@@ -14,6 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "ar-drone": "git://github.com/felixge/node-ar-drone.git",
-    "cv": "~0.0.3"
+    "cv": "~0.0.3",
+    "lodash": "~1.2.1"
   }
 }
