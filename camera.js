@@ -15,13 +15,14 @@ drone.on('pngs', function() {
 });
 
 drone.on('altitude', function() {
-  drone.grabPNGs(50);
+  drone.streamPNGS();
   drone.client.front(0.05);
   drone.client.after(10000, function() {
       drone.client.stop();
       drone.client.back(0.1);
       drone.client.after(5000, function() {
         drone.client.land();
+        process.exit(0);
       });
   });
 });
