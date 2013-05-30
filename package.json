@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "repository": "git://github.com/ceejbot/team-cave-newt.git",
   "keywords": [
     "nodecopter"
   ],
@@ -14,9 +14,5 @@
   "license": "MIT",
   "dependencies": {
     "ar-drone": "git://github.com/felixge/node-ar-drone.git"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/ceejbot/team-cave-newt.git"
   }
 }
