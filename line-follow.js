@@ -8,33 +8,36 @@ var
 var drone = new Drone();
 drone.selectCamera('front');
 
-
+var bestHeading = 0;
 var bestFitness = -1;
 function findBestFitness(fitness) {
-	bestFitness = Math.max(fitness, bestFitness);
-}
-
-function seekFitness(fitness) {
-	if (fitness == bestFitness) {
-		drone.client.clockwise(0);
-		drone.emit('headingGood');
+	if (fitness > bestFitness) {
+		bestFitness = fitness;
+		bestHeading = drone.heading;
 	}
 }
 
-
-drone.on('headingGood', function() {
+drone.on('heading', function() {
 	console.log('we think we have a good heading; moving forward');
+
+	var curFitness = bestFitness;
+	drone.on('fitness', function(fitness) {
+		if (fitness < curFitness)
+			console.log('worry! fitness dropping', fitness);
+		curFitness = fitness;
+	});
+
+	drone.move(5000, 0.1, function() {
+		drone.client.stop();
+		console.log('current fitness:', curFitness);
+		drone.land(function() {
+			process.exit();
+		});
+	});
 });
 
-
-drone.on('altitude', function() {
+drone.client.takeoff(function() {
   drone.streamPNGS();
-
-  // 360 noting orientations
-  // through one orbit
-  // note best & worst & heading at both
-
-  // repeat a rotation; at best, move forward.
   drone.on('fitness', findBestFitness);
 
   drone.client.clockwise(0.2);
@@ -43,13 +46,6 @@ drone.on('altitude', function() {
 	drone.removeListener('fitness', findBestFitness);
 	drone.client.stop();
 	console.log('finished rotation; now seeking', bestFitness);
-	drone.on('fitness', seekFitness);
-	drone.client.clockwise(0.2);
+	drone.turnToHeading(bestHeading);
   });
 });
-
-drone.client.takeoff(function() {
-  drone.moveToAltitude(1.5);
-});
-
-
