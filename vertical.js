@@ -36,7 +36,7 @@ client.takeoff(function() {
     client.after(1000, function() { verticalMoveTo(2.0); }).
     after(4000, function() { verticalMoveTo(2.5); }).
     after(4000, function() { verticalMoveTo(0.5); }).
-    after(2000, function() { this.land(functio() {
+    after(2000, function() { this.land(function() {
       process.exit(0);
     }); });
 });

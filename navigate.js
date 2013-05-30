@@ -10,14 +10,14 @@ function land_exit() {
 
 var drone = new Drone();
 drone.takeoff(function() {
-	drone.client.clockwise(0.5);
-	drone.client.config('general:navdata_demo', 'FALSE');
-	var x = 0;
-	drone.client.on("navdata", function(data) {
-		console.log("z="+data.demo.rotation.clockwise);
-		if (x++ > 100) {
-			drone.client.left(0);
-			land_exit();
-		}
-	})
+	drone.goalAltitude=1.5;
+	drone.on("altitude", function() {
+		drone.goalHeading = 90;
+		drone.on("heading", function() {
+			drone.goalHeading = 0;
+			drone.on("heading", function() {
+				land_exit();
+			})
+		})
+	});
 });
