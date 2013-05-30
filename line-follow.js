@@ -8,6 +8,7 @@ var
 var drone = new Drone();
 drone.selectCamera('front');
 
+var initialHeading;
 var bestHeading = 0;
 var bestFitness = -1;
 function findBestFitness(fitness) {
@@ -15,7 +16,18 @@ function findBestFitness(fitness) {
         bestFitness = fitness;
         bestHeading = drone.heading;
     }
+
+    if (drone.heading == initialHeading) {
+      drone.emit('found');
+    }
 }
+
+drone.on('found', function() {
+  drone.removeListener('fitness', findBestFitness);
+  drone.client.stop();
+  console.log('finished rotation; now seeking', bestFitness, 'at heading', bestHeading);
+  drone.turnToHeading(bestHeading);
+});
 
 drone.on('heading', function() {
     console.log('we think we have a good heading; moving forward');
@@ -39,16 +51,9 @@ drone.on('heading', function() {
 drone.client.takeoff(function() {
     drone.moveToAltitude(1.5);
     drone.on('altitude', function() {
+        initialHeading = drone.heading;
         drone.streamPNGS();
         drone.on('fitness', findBestFitness);
-
         drone.client.clockwise(0.2);
-
-        drone.client.after(10000, function() {
-          drone.removeListener('fitness', findBestFitness);
-          drone.client.stop();
-          console.log('finished rotation; now seeking', bestFitness, 'at heading', bestHeading);
-          drone.turnToHeading(bestHeading);
-        });
     });
 });
